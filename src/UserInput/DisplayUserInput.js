@@ -30,14 +30,17 @@ export default class DisplayUserInput extends React.Component {
       //   currentEntry: "No tasks completed yet",
       currentEntry: "",
       allEntries: [],
-      allDetailedEntries: []
+      allDetailedEntries: [],
+      entryTask: "",
+      entryDate: "",
+      entryTime: ""
     };
   }
 
   // Firebase stuff -- need to call this in addNewEntry()
   addToDatabase = () => {
     let user = firebase.auth().currentUser;
-    let name, email, uid, emailVerified;
+    let email, uid;
 
     if (user != null) {
       // emailVerified = user.emailVerified;
@@ -45,6 +48,14 @@ export default class DisplayUserInput extends React.Component {
       uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
       // this value to authenticate with your backend server, if
       // you have one. Use User.getToken() instead.
+
+      const specificUserRef = firebase.database().ref(uid);
+      const dbEntry = {
+        task: this.state.currentEntry,
+        date: this.state.entryDate,
+        time: this.state.entryTime
+      };
+      specificUserRef.push(dbEntry); // Pushes contract to firebase under "users" section
     }
   };
 
@@ -121,9 +132,15 @@ export default class DisplayUserInput extends React.Component {
       tempDetailedEntry
     };
 
-    this.setState({
-      allDetailedEntries: tempAllDetailedEntries
-    });
+    this.setState(
+      {
+        allDetailedEntries: tempAllDetailedEntries,
+        entryTask: tempDetailedEntry.task,
+        entryDate: tempDetailedEntry.date,
+        entryTime: tempDetailedEntry.time
+      },
+      this.addToDatabase()
+    );
   };
 
   removeLastEntry = () => {

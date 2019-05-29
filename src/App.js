@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="NApp">
       <LoginLayout />
-      {/* <HomeLayout /> */}
+      <HomeLayout />
     </div>
   );
 }
