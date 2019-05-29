@@ -35,13 +35,26 @@ export default class LoginLayout extends React.Component {
     this.setState({
       tempRegistered: true
     });
+    console.log("REGISTER EMAIL " + this.state.email);
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        // ...
+      });
+  };
+
+  doLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(function(error) {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
         // ...
       });
   };

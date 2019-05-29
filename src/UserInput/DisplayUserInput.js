@@ -6,6 +6,13 @@ import ReceiveUserInput from "./ReceiveUserInput.js";
 import { message, Avatar, Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroller";
 import "antd/dist/antd.css";
+import firebase from "../firebase.js";
+
+// Something along the lines of
+// Get ref of user id
+// Add task/timestamp under that userid
+// That way, first time - will create folder for that user
+// Every time after, will add entry to already existing folder
 
 /**
  * TO DO
@@ -26,6 +33,20 @@ export default class DisplayUserInput extends React.Component {
       allDetailedEntries: []
     };
   }
+
+  // Firebase stuff -- need to call this in addNewEntry()
+  addToDatabase = () => {
+    let user = firebase.auth().currentUser;
+    let name, email, uid, emailVerified;
+
+    if (user != null) {
+      // emailVerified = user.emailVerified;
+      email = user.email;
+      uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+      // this value to authenticate with your backend server, if
+      // you have one. Use User.getToken() instead.
+    }
+  };
 
   //   componentDidMount = () => {
   //     this.addNewEntry();
