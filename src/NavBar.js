@@ -33,7 +33,7 @@ export default class NavBar extends React.Component {
         <div style={{ display: "flex" }}>
           <Menu
             onClick={this.handleClick}
-            style={{ width: 256 }}
+            style={{ width: 150 }}
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
             mode="inline"
