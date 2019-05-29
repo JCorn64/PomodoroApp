@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Menu, Icon } from "antd";
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import "antd/dist/antd.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./Home.js";
 import History from "./History.js";
 
 // https://reacttraining.com/react-router/web/example/sidebar
+
+const { Header, Content, Sider } = Layout;
+
+let mountNode = document.getElementById("root");
 
 const routes = [
   {
@@ -20,21 +24,34 @@ const routes = [
   }
 ];
 
-let mountNode = document.getElementById("root");
-
-export default class NavBar extends React.Component {
+export default class HomeLayout extends React.Component {
   handleClick = e => {
     console.log("click ", e);
   };
 
   render() {
     return (
-      <Router>
-        <div style={{ display: "flex" }}>
-          <Menu
+        <Router>
+          <Layout>
+    <Header className="header" style={{background: '#fff'}}>
+      <div className="logo" />
+      <Menu
+        mode="horizontal"
+        defaultSelectedKeys={[]}
+        style={{ lineHeight: '34px', float: "right", width: '109px' }}
+      >
+        <Menu.Item key="logout" style={{float: "right"}}>
+            <Icon type="logout" />
+           Logout
+        </Menu.Item>
+      </Menu>
+    </Header>
+    <Layout>
+      <Sider width={200} style={{ background: '#fff', display: "flex" }}>
+        <Menu
             onClick={this.handleClick}
             style={{ width: 150 }}
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={[]}
             defaultOpenKeys={["sub1"]}
             mode="inline"
           >
@@ -53,7 +70,8 @@ export default class NavBar extends React.Component {
               <a href={"/history"} />
             </Menu.Item>
           </Menu>
-
+          </Sider>
+          <Content style={{ background: '#fff'}}>
           {routes.map((route, index) => (
             // You can render a <Route> in as many places
             // as you want in your app. It will render along
@@ -69,10 +87,12 @@ export default class NavBar extends React.Component {
               component={route.component}
             />
           ))}
-        </div>
-      </Router>
+      </Content>
+    </Layout>
+  </Layout> 
+  </Router>   
     );
   }
 }
 
-ReactDOM.render(<NavBar />, mountNode);
+ReactDOM.render(<HomeLayout />, mountNode);
