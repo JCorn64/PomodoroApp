@@ -14,14 +14,14 @@ export default class ReceiveUserInput extends React.Component {
           <TextArea
             placeholder="Record completed task here!"
             autosize={{ minRows: 2, maxRows: 6 }}
-            style={{ width: 300 }}
+            style={{ width: 450 }}
             onChange={e =>
               this.props.updateParent("currentEntry", e.target.value)
             }
           />
           <div>
             <Button
-              className="myButton"
+              className="submitButton"
               type="primary"
               icon="upload"
               onClick={this.props.addNewEntry()}
@@ -29,7 +29,7 @@ export default class ReceiveUserInput extends React.Component {
               Submit
             </Button>
             <Button
-              className="myButton"
+              className="undoButton"
               type="primary"
               icon="undo"
               onClick={this.props.removeLastEntry()}

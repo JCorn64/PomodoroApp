@@ -1,8 +1,6 @@
 import React from "react";
 import "./App.css";
-import ReceiveUserInput from "./ReceiveUserInput.js";
-// import "./App.css";
-import DisplayUserInput from "./DisplayUserInput.js";
+import DisplayUserInput from "./UserInput/DisplayUserInput.js";
 
 function App() {
   return (

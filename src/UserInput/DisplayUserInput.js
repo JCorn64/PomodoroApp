@@ -62,8 +62,13 @@ export default class DisplayUserInput extends React.Component {
       month++;
     }
 
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+
     console.log("year = " + fullDate.getFullYear());
 
+    // Entire timestamp (date and time) -- Ex. 2019/05/29 11:41:03
     let tempTimestamp =
       "" +
       year +
@@ -78,8 +83,10 @@ export default class DisplayUserInput extends React.Component {
       ":" +
       seconds;
 
+    // Just date -- Ex. 2019/05/29
     let tempDate = "" + year + "/" + month + "/" + date;
 
+    // Just time -- Ex. 11:41:03
     let tempTime = "" + hours + ":" + minutes + ":" + seconds;
 
     let tempDetailedEntry = {
@@ -119,11 +126,11 @@ export default class DisplayUserInput extends React.Component {
           }
           bordered
           dataSource={this.state.allDetailedEntries}
-          style={{ width: 300 }}
+          style={{ width: 450 }}
           renderItem={item => (
             <List.Item key={item.id}>
               <List.Item.Meta title={item.tempDetailedEntry.task} />
-              <div>
+              <div className="timestamp">
                 <div>{item.tempDetailedEntry.date}</div>
                 {item.tempDetailedEntry.time}
               </div>
