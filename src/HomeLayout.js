@@ -95,12 +95,15 @@ export default class HomeLayout extends React.Component {
               component={route.component}
             />
           ))}
-      </Content>
 
-      <div className='HomeItems'>
+          <div className='HomeItems'>
         <Timer />
         <UserInput />
       </div>
+      
+      </Content>
+
+      
 
     </Layout>
   </Layout> 
