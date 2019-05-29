@@ -96,7 +96,7 @@ export default class HomeLayout extends React.Component {
             />
           ))}
 
-          <div className='HomeItems'>
+      <div className='HomeItems'>
         <Timer />
         <UserInput />
       </div>

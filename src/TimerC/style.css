@@ -10,10 +10,11 @@
 
 .timer {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin: 0 auto 0;
+    margin: 0 -5 0;
+    padding: 0;
+    flex-direction: column;
 }
 
 .time {
@@ -21,6 +22,7 @@
 	color: #000;
     font-weight: lighter;
     font-family: digital7;
+    margin-bottom: -50px;
 }
 
 .controls {
