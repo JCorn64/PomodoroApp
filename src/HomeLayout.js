@@ -5,6 +5,7 @@ import "antd/dist/antd.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./Home.js";
 import History from "./History.js";
+import Login from "./Login.js";
 
 // https://reacttraining.com/react-router/web/example/sidebar
 
@@ -21,6 +22,10 @@ const routes = [
   {
     path: "/history",
     component: History
+  },
+  {
+    path: "/login",
+    component: Login
   }
 ];
 
@@ -43,6 +48,7 @@ export default class HomeLayout extends React.Component {
         <Menu.Item key="logout" style={{float: "right"}}>
             <Icon type="logout" />
            Logout
+           <a href={"/login"} />
         </Menu.Item>
       </Menu>
     </Header>
