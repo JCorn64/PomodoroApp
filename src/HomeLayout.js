@@ -18,7 +18,7 @@ let mountNode = document.getElementById("root");
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     exact: true,
     component: Home
   },
@@ -27,7 +27,7 @@ const routes = [
     component: History
   },
   {
-    path: "/login",
+    path: "/",
     component: Login
   }
 ];
@@ -41,19 +41,8 @@ export default class HomeLayout extends React.Component {
     return (
       <Router>
         <Layout>
-          <Header className="header" style={{ background: "#fff" }}>
+          <Header className="header" style={{ background: "#fff", height: "20px"}}>
             <div className="logo" />
-            <Menu
-              mode="horizontal"
-              defaultSelectedKeys={[]}
-              style={{ lineHeight: "34px", float: "right", width: "109px" }}
-            >
-              <Menu.Item key="logout" style={{ float: "right" }}>
-                <Icon type="logout" />
-                Logout
-                <a href={"/login"} />
-              </Menu.Item>
-            </Menu>
           </Header>
           <Layout>
             <Sider width={200} style={{ background: "#fff", display: "flex" }}>
@@ -77,6 +66,13 @@ export default class HomeLayout extends React.Component {
                     <span>History</span>
                   </span>
                   <a href={"/history"} />
+                </Menu.Item>
+                <Menu.Item key="logout">
+                  <span>
+                    <Icon type="logout" />
+                    <span>Logout</span>
+                  </span>
+                  <a href={"/"} />
                 </Menu.Item>
               </Menu>
             </Sider>
