@@ -3,9 +3,11 @@ import ReactDOM from "react-dom";
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import "antd/dist/antd.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "./Home.js";
+import Home from "./Home";
 import History from "./History.js";
 import Login from "./Login.js";
+import Timer from "./TimerC/Timer";
+import UserInput from './UserInput/DisplayUserInput';
 
 // https://reacttraining.com/react-router/web/example/sidebar
 
@@ -94,6 +96,12 @@ export default class HomeLayout extends React.Component {
             />
           ))}
       </Content>
+
+      <div className='HomeItems'>
+        <Timer />
+        <UserInput />
+      </div>
+
     </Layout>
   </Layout> 
   </Router>   
