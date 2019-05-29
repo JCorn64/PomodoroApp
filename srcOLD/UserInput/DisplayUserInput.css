@@ -1,9 +1,6 @@
 .myClass {
   display: flex;
   flex-direction: column;
-  /* margin: 15px 15px 15px 15px; */
-  justify-content: space-around;
-  align-items: center;
   margin: 0 auto 0;
 }
 
