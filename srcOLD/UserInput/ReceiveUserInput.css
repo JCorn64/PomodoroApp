@@ -1,0 +1,15 @@
+.textAndButtons {
+  margin: 0px 10px 0px 0px;
+}
+
+.myButton {
+  margin: 10px 10px 10px 10px;
+}
+
+.submitButton {
+  margin: 10px 10px 10px 120px;
+}
+
+.undoButton {
+  margin: 10px 50px 10px 10px;
+}
