@@ -45,10 +45,10 @@ export default class HomeLayout extends React.Component {
             <div className="logo" />
           </Header>
           <Layout>
-            <Sider width={200} style={{ background: "#fff", display: "flex" }}>
+            <Sider width={150} style={{ background: "#fff", display: "flex" }}>
               <Menu
                 onClick={this.handleClick}
-                style={{ width: 150 }}
+                style={{ width: 125 }}
                 defaultSelectedKeys={[]}
                 defaultOpenKeys={["sub1"]}
                 mode="inline"
