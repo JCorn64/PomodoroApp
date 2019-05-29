@@ -1,13 +1,15 @@
 import React from "react";
 import "./App.css";
 import Home from './Home';
+import DisplayUserInput from "./UserInput/DisplayUserInput.js";
 
 function App() {
-    return (
-      <div>
-        <Home/>
-      </div>
-    );
+  return (
+    <div className="NApp">
+      <DisplayUserInput />
+      <Home/>
+    </div>
+  );
 }
 
 export default App;

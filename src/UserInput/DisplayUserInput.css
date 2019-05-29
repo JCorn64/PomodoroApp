@@ -1,0 +1,26 @@
+.myClass {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 15px 15px 15px;
+}
+
+.singleItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.entry {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.myHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.timestamp {
+  margin: 0px 10px 0px 10px;
+}
