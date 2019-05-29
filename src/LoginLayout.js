@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import "antd/dist/antd.css";
 
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Timer from "./TimerC/Timer";
+import UserInput from "./UserInput/DisplayUserInput";
+
 const FormItem = Form.Item;
 
 let mountNode = document.getElementById("root");
@@ -19,6 +23,7 @@ class LoginLayout extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
+        <Router>
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem style={{ float: "none", width: '250px' }}>
           {getFieldDecorator('userName', {
@@ -39,13 +44,16 @@ class LoginLayout extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })}
-          <Button type="primary" htmlType="submit" className="login-form-button" block style={{ float: "none", width: '250px' }}>
-            Log in
-          </Button>
+          <Link to="/home">
+            <Button type="primary" htmlType="submit" className="login-form-button" block style={{ float: "none", width: '250px'}}>
+                Log in
+            </Button>
+          </Link>
           <br />
           Or <a href="">register now!</a>
         </FormItem>
       </Form>
+      </Router>
     );
   }
 }
