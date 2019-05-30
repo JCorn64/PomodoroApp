@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Timer from "./TimerC/Timer";
 import UserInput from "./UserInput/DisplayUserInput";
 import "./HomeLayout.css";
+import firebase from "./firebase.js";
 
 // https://reacttraining.com/react-router/web/example/sidebar
 

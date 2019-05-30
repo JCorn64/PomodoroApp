@@ -14,8 +14,7 @@ export default class LoginLayout extends React.Component {
 
     this.state = {
       email: "",
-      password: "",
-      tempRegistered: false
+      password: ""
     };
   }
 
@@ -29,30 +28,66 @@ export default class LoginLayout extends React.Component {
   };
 
   doRegister = () => {
-    this.setState({
-      tempRegistered: true
-    });
+    let user = firebase.auth().currentUser;
+    if (user != null) {
+      firebase
+        .auth()
+        .signOut()
+        .then(function() {
+          // Sign-out successful.
+        })
+        .catch(function(error) {
+          // An error happened.
+        });
+    }
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(this.doLogin())
       .catch(function(error) {
+        console.log("An account with this email already exists");
+        this.setState({
+          registeredProperly: false,
+          errorMessage: "An account with this email already exists"
+        });
         // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
+        // let errorCode = error.code;
+        // let errorMessage = error.message;
         // ...
       });
-
-    this.doLogin();
   };
 
   doLogin = () => {
+    let user = firebase.auth().currentUser;
+
+    if (user != null) {
+      console.log(user.email);
+      firebase
+        .auth()
+        .signOut()
+        .then(function() {
+          // Sign-out successful.
+        })
+        .catch(function(error) {
+          // An error happened.
+        });
+    }
+
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then()
       .catch(function(error) {
+        console.log("Incorrect email or password");
+        this.setState({
+          loggedInProperly: false,
+          errorMessage: "Incorrect email or password"
+        });
         // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
+        // let errorCode = error.code;
+        // let errorMessage = error.message;
+
         // ...
       });
   };
@@ -85,30 +120,30 @@ export default class LoginLayout extends React.Component {
             />
           </div>
           <div className="field">
-            <a href={"/home"}>
-              <Button
-                className="loginButton"
-                type="primary"
-                icon="login"
-                onClick={e => this.doLogin()}
-                style={{ width: 300 }}
-              >
-                Login
-              </Button>
-            </a>
+            ({this.state.registeredProperly && this.state.loggedInProperly ? <a href={"/home"} : <div>})
+            <Button
+              className="loginButton"
+              type="primary"
+              icon="login"
+              onClick={e => this.doLogin()}
+              style={{ width: 300 }}
+            >
+              Login
+            </Button>
+            {/* </a> */}
           </div>
           <div className="field">
-            <a href={"/home"}>
-              <Button
-                className="registerButton"
-                type="primary"
-                icon="check"
-                onClick={e => this.doRegister()}
-                style={{ width: 300 }}
-              >
-                Register
-              </Button>
-            </a>
+            {/* <a href={"/home"}> */}
+            <Button
+              className="registerButton"
+              type="primary"
+              icon="check"
+              onClick={e => this.doRegister()}
+              style={{ width: 300 }}
+            >
+              Register
+            </Button>
+            {/* </a> */}
           </div>
         </div>
       </div>

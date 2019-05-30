@@ -175,7 +175,6 @@ export default class DisplayUserInput extends React.Component {
   render() {
     return (
       <div className="myClass">
-        <p />
         <List
           size="large"
           header={
