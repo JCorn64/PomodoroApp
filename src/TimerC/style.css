@@ -6,6 +6,9 @@
 .container {
   height: 100%;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto 0;
 }
 
 .timer {
@@ -17,11 +20,11 @@
 }
 
 .time {
-  font-size: 15rem;
+  font-size: 10rem;
   color: #000;
   font-weight: lighter;
   font-family: digital7;
-  margin-bottom: -50px;
+  margin-bottom: -20px;
 }
 
 .controls {

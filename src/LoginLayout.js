@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Icon, Input, Button } from "antd";
 import "antd/dist/antd.css";
 import firebase from "./firebase.js";
 import "./LoginLayout.css";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { TextArea } = Input;
-
-const FormItem = Form.Item;
 
 let mountNode = document.getElementById("root");
 
@@ -87,27 +83,30 @@ export default class LoginLayout extends React.Component {
             />
           </div>
           <div className="field">
-            <Button
-              className="loginButton"
-              type="primary"
-              icon="login"
-              onClick={e => this.doLogin()}
-              style={{ width: 300 }}
-            >
-              Login
-              {/* <a href={"/home"}>Log in</a> */}
-            </Button>
+            <a href={"/home"}>
+              <Button
+                className="loginButton"
+                type="primary"
+                icon="login"
+                onClick={e => this.doLogin()}
+                style={{ width: 300 }}
+              >
+                Login
+              </Button>
+            </a>
           </div>
           <div className="field">
-            <Button
-              className="registerButton"
-              type="primary"
-              icon="check"
-              onClick={e => this.doRegister()}
-              style={{ width: 300 }}
-            >
-              Register
-            </Button>
+            <a href={"/home"}>
+              <Button
+                className="registerButton"
+                type="primary"
+                icon="check"
+                onClick={e => this.doRegister()}
+                style={{ width: 300 }}
+              >
+                Register
+              </Button>
+            </a>
           </div>
         </div>
       </div>
