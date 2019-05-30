@@ -24,10 +24,13 @@ export default class HistoryLayout extends React.Component {
     allDates: [],
     allTimes: [],
     ready: false,
-    allDataInObject: []
+    allDataInObject: [],
+    numbersUpToLength: []
   };
 
   retrieveHistory = async () => {
+    let counter = 0;
+    let tempNumbers = [];
     let user = firebase.auth().currentUser;
     if (user == null) {
       console.log("no user");
@@ -54,6 +57,9 @@ export default class HistoryLayout extends React.Component {
           let tempTime = childSnapshot.val().time;
           times.unshift(tempTime);
           console.log("tempTime: " + tempTime);
+
+          tempNumbers.push(counter);
+          counter++;
         });
       });
 
@@ -61,7 +67,8 @@ export default class HistoryLayout extends React.Component {
         allTasks: tasks,
         allDates: dates,
         allTimes: times,
-        ready: true
+        ready: true,
+        numbersUpToLength: tempNumbers
       });
     }
   };
@@ -109,12 +116,8 @@ export default class HistoryLayout extends React.Component {
   };
 
   render() {
-    // console.log(this.state.allTasks);
-    // console.log(this.state.allDataInObject);
     return (
       <div>
-        <h2>h</h2>
-
         <Layout>
           <Header
             className="header"
@@ -158,17 +161,47 @@ export default class HistoryLayout extends React.Component {
             <Content style={{ background: "#fff" }}>
               <h2>Completed Tasks</h2>
               <br />
-              <Timeline style={{ width: "600px" }}>
-                {this.state.allDataInObject ? (
-                  Object.keys(this.state.allDataInObject).map((key, index) => {
-                    console.log("render obj = " + obj);
+              <Timeline mode="alternate" style={{ width: "600px" }}>
+                {/* {this.state.allDataInObject.length > 0 ? (
+                  Object.keys(this.state.allDataInObject).map((keyName, i) => {
                     return (
                       <Timeline.Item>
                         <p style={{ wordWrap: "break-word" }}>
-                          {obj.entryDate}
+                          {this.state.allDataInObject}
                         </p>
                         <p style={{ wordWrap: "break-word" }}>
-                          {obj.entryTime}
+                          {this.state.allDataInObject[keyName]}
+                        </p>
+                      </Timeline.Item>
+                    );
+                  })
+                ) : (
+                  <div />
+                )} */}
+                {/* 
+                {this.state.allDates.length > 0 ? (
+                  this.state.allDates.map(date => {
+                    return (
+                      <Timeline.Item>
+                        <p style={{ wordWrap: "break-word" }}>{date}</p>
+                        <p />
+                      </Timeline.Item>
+                    );
+                  })
+                ) : (
+                  <div />
+                )} */}
+
+                {this.state.allDates.length > 0 ? (
+                  this.state.numbersUpToLength.map(index => {
+                    return (
+                      <Timeline.Item>
+                        <p style={{ wordWrap: "break-word" }}>
+                          {this.state.allDates[index]}{" "}
+                          {this.state.allTimes[index]}
+                        </p>
+                        <p style={{ wordWrap: "break-word" }}>
+                          {this.state.allTasks[index]}
                         </p>
                       </Timeline.Item>
                     );
@@ -176,15 +209,6 @@ export default class HistoryLayout extends React.Component {
                 ) : (
                   <div />
                 )}
-
-                <Timeline.Item>
-                  <p style={{ wordWrap: "break-word" }}>
-                    2015-09-01 Task Completed
-                  </p>
-                  <p style={{ wordWrap: "break-word" }}>
-                    2015-09-01 Task Completed 2
-                  </p>
-                </Timeline.Item>
               </Timeline>
             </Content>
           </Layout>
@@ -193,7 +217,6 @@ export default class HistoryLayout extends React.Component {
           <h3>hi</h3>
           <Button onClick={() => this.manipulateData()} />
         </div>
-        <h3>hi</h3>
       </div>
     );
   }
