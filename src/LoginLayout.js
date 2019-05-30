@@ -45,6 +45,8 @@ export default class LoginLayout extends React.Component {
         let errorMessage = error.message;
         // ...
       });
+
+    this.doLogin();
   };
 
   doLogin = () => {

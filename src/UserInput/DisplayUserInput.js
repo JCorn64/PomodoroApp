@@ -100,6 +100,12 @@ export default class DisplayUserInput extends React.Component {
     if (seconds < 10) {
       seconds = "0" + seconds;
     }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
 
     // Entire timestamp (date and time) -- Ex. 2019/05/29 11:41:03
     let tempTimestamp =
