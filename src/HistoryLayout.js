@@ -66,21 +66,39 @@ export default class HistoryLayout extends React.Component {
             </Menu>
           </Sider>
           <Content style={{ background: "#fff" }}>
-            <Timeline>
-              <Timeline.Item>
-                <p>2015-09-01 Task Completed</p>
-                <p>2015-09-01 Task Completed 2</p>
+          <h2>
+            Completed Tasks
+          </h2>
+          <br/>
+            <Timeline style={{ width: "600px" }}>
+              <Timeline.Item style={{ display: "flex", flexWrap: "wrap" }}>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed
+                </p>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed 2
+                </p>
               </Timeline.Item>
               <Timeline.Item>
-                <p>2015-09-01 Task Completed</p>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed
+                </p>
               </Timeline.Item>
               <Timeline.Item>
-                <p>2015-09-01 Task Completed</p>
-                <p>2015-09-01 Task Completed 2</p>
-                <p>2015-09-01 Task Completed 3</p>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed
+                </p>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed 2
+                </p>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed 3
+                </p>
               </Timeline.Item>
               <Timeline.Item>
-                <p>2015-09-01 Task Completed</p>
+                <p style={{ wordWrap: "break-word" }}>
+                  2015-09-01 Task Completed
+                </p>
               </Timeline.Item>
             </Timeline>
           </Content>
