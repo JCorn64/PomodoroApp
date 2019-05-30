@@ -68,7 +68,7 @@ export default class LoginLayout extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="everything">
         <div className="fields">
           <div className="field">
             <Input
@@ -88,17 +88,6 @@ export default class LoginLayout extends React.Component {
           </div>
           <div className="field">
             <Button
-              className="registerButton"
-              type="primary"
-              icon="check"
-              onClick={e => this.doRegister()}
-              style={{ width: 300 }}
-            >
-              Register
-            </Button>
-          </div>
-          <div className="field">
-            <Button
               className="loginButton"
               type="primary"
               icon="login"
@@ -107,6 +96,17 @@ export default class LoginLayout extends React.Component {
             >
               Login
               {/* <a href={"/home"}>Log in</a> */}
+            </Button>
+          </div>
+          <div className="field">
+            <Button
+              className="registerButton"
+              type="primary"
+              icon="check"
+              onClick={e => this.doRegister()}
+              style={{ width: 300 }}
+            >
+              Register
             </Button>
           </div>
         </div>
