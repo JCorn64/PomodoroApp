@@ -28,6 +28,11 @@ export default class HistoryLayout extends React.Component {
     numbersUpToLength: []
   };
 
+  componentDidMount = () => {
+    this.retrieveHistory();
+    this.manipulateData();
+  };
+
   retrieveHistory = async () => {
     let counter = 0;
     let tempNumbers = [];
@@ -44,7 +49,8 @@ export default class HistoryLayout extends React.Component {
 
       const specificUserRef = firebase.database().ref(user.uid);
 
-      await specificUserRef.on("value", function(snapshot) {
+      // used to have async here
+      specificUserRef.on("value", function(snapshot) {
         snapshot.forEach(childSnapshot => {
           let tempTask = childSnapshot.val().task;
           tasks.unshift(tempTask);
@@ -63,7 +69,8 @@ export default class HistoryLayout extends React.Component {
         });
       });
 
-      await this.setState({
+      // used to have async here
+      this.setState({
         allTasks: tasks,
         allDates: dates,
         allTimes: times,
@@ -71,6 +78,8 @@ export default class HistoryLayout extends React.Component {
         numbersUpToLength: tempNumbers
       });
     }
+
+    this.forceUpdate();
   };
 
   manipulateData = async () => {
@@ -82,7 +91,8 @@ export default class HistoryLayout extends React.Component {
      * Task: task
      */
 
-    await this.retrieveHistory();
+    // used to have async here
+    this.retrieveHistory();
 
     console.log("AllTasks: " + this.state.allTasks);
 
@@ -113,6 +123,8 @@ export default class HistoryLayout extends React.Component {
     if (this.state.allDataInObject.length) {
       console.log("dataobj = " + JSON.stringify(this.state.allDataInObject));
     }
+
+    this.forceUpdate();
   };
 
   render() {
