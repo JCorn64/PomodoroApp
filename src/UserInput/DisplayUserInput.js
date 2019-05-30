@@ -31,6 +31,7 @@ export default class DisplayUserInput extends React.Component {
   addToDatabase = (myTask, myDate, myTime) => {
     let user = firebase.auth().currentUser;
     let uid;
+    console.log("logged in as: " + user.email);
 
     if (user != null) {
       uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use

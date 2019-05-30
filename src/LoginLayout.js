@@ -33,28 +33,20 @@ export default class LoginLayout extends React.Component {
       firebase
         .auth()
         .signOut()
-        .then(function() {
-          // Sign-out successful.
+        .then(res => {
+          console.log("logged " + user.email + " out");
         })
-        .catch(function(error) {
-          // An error happened.
-        });
+        .catch(function(error) {});
     }
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(this.doLogin())
+      .then(res => {
+        console.log("logged " + this.state.email + " in");
+      })
       .catch(function(error) {
         console.log("An account with this email already exists");
-        // this.setState({
-        //   registeredProperly: false,
-        //   errorMessage: "An account with this email already exists"
-        // });
-        // Handle Errors here.
-        // let errorCode = error.code;
-        // let errorMessage = error.message;
-        // ...
       });
   };
 
@@ -62,35 +54,23 @@ export default class LoginLayout extends React.Component {
     let user = firebase.auth().currentUser;
 
     if (user != null) {
-      console.log(user.email);
+      console.log("logged " + user.email + " out");
       firebase
         .auth()
         .signOut()
-        .then(res => {
-          console.log("logged " + user.email + "out");
-          let user2 = firebase.auth().currentUser;
-          console.log("logged " + user2.email + "in");
-        })
-        .catch(function(error) {
-          // An error happened.
-        });
+        .then(res => {})
+        .catch(function(error) {});
     }
 
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then()
+      .then(res => {
+        let user2 = firebase.auth().currentUser;
+        console.log("logged " + user2.email + " in");
+      })
       .catch(function(error) {
         console.log("Incorrect email or password");
-        // this.setState({
-        //   loggedInProperly: false,
-        //   errorMessage: "Incorrect email or password"
-        // });
-        // Handle Errors here.
-        // let errorCode = error.code;
-        // let errorMessage = error.message;
-
-        // ...
       });
   };
 
@@ -152,9 +132,3 @@ export default class LoginLayout extends React.Component {
     );
   }
 }
-
-// const WrappedLoginLayout = Form.create()(LoginLayout);
-
-// ReactDOM.render(<WrappedLoginLayout />, mountNode);
-
-// export default WrappedLoginLayout
