@@ -98,7 +98,6 @@ export default class LoginLayout extends React.Component {
               {/* <a href={"/home"}>Log in</a> */}
             </Button>
           </div>
-          If you're new...
           <div className="field">
             <Button
               className="registerButton"
