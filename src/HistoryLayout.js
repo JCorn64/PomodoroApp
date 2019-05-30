@@ -71,7 +71,7 @@ export default class HistoryLayout extends React.Component {
           </h2>
           <br/>
             <Timeline style={{ width: "600px" }}>
-              <Timeline.Item style={{ display: "flex", flexWrap: "wrap" }}>
+              <Timeline.Item>
                 <p style={{ wordWrap: "break-word" }}>
                   2015-09-01 Task Completed
                 </p>
