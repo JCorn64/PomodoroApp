@@ -47,10 +47,10 @@ export default class LoginLayout extends React.Component {
       .then(this.doLogin())
       .catch(function(error) {
         console.log("An account with this email already exists");
-        this.setState({
-          registeredProperly: false,
-          errorMessage: "An account with this email already exists"
-        });
+        // this.setState({
+        //   registeredProperly: false,
+        //   errorMessage: "An account with this email already exists"
+        // });
         // Handle Errors here.
         // let errorCode = error.code;
         // let errorMessage = error.message;
@@ -66,8 +66,10 @@ export default class LoginLayout extends React.Component {
       firebase
         .auth()
         .signOut()
-        .then(function() {
-          // Sign-out successful.
+        .then(res => {
+          console.log("logged " + user.email + "out");
+          let user2 = firebase.auth().currentUser;
+          console.log("logged " + user2.email + "in");
         })
         .catch(function(error) {
           // An error happened.
@@ -80,10 +82,10 @@ export default class LoginLayout extends React.Component {
       .then()
       .catch(function(error) {
         console.log("Incorrect email or password");
-        this.setState({
-          loggedInProperly: false,
-          errorMessage: "Incorrect email or password"
-        });
+        // this.setState({
+        //   loggedInProperly: false,
+        //   errorMessage: "Incorrect email or password"
+        // });
         // Handle Errors here.
         // let errorCode = error.code;
         // let errorMessage = error.message;
@@ -120,30 +122,30 @@ export default class LoginLayout extends React.Component {
             />
           </div>
           <div className="field">
-            ({this.state.registeredProperly && this.state.loggedInProperly ? <a href={"/home"} : <div>})
-            <Button
-              className="loginButton"
-              type="primary"
-              icon="login"
-              onClick={e => this.doLogin()}
-              style={{ width: 300 }}
-            >
-              Login
-            </Button>
-            {/* </a> */}
+            <a href={"/home"}>
+              <Button
+                className="loginButton"
+                type="primary"
+                icon="login"
+                onClick={e => this.doLogin()}
+                style={{ width: 300 }}
+              >
+                Login
+              </Button>
+            </a>
           </div>
           <div className="field">
-            {/* <a href={"/home"}> */}
-            <Button
-              className="registerButton"
-              type="primary"
-              icon="check"
-              onClick={e => this.doRegister()}
-              style={{ width: 300 }}
-            >
-              Register
-            </Button>
-            {/* </a> */}
+            <a href={"/home"}>
+              <Button
+                className="registerButton"
+                type="primary"
+                icon="check"
+                onClick={e => this.doRegister()}
+                style={{ width: 300 }}
+              >
+                Register
+              </Button>
+            </a>
           </div>
         </div>
       </div>

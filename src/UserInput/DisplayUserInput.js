@@ -175,6 +175,11 @@ export default class DisplayUserInput extends React.Component {
   render() {
     return (
       <div className="myClass">
+        {firebase.auth().currentUser ? (
+          "Logged in as " + firebase.auth().currentUser.email
+        ) : (
+          <div />
+        )}
         <List
           size="large"
           header={

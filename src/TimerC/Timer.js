@@ -138,11 +138,6 @@ export default class Timer extends React.Component {
     return (
       <div className={`container ${this.state.phase}`}>
         <div className="timer">
-          {firebase.auth().currentUser ? (
-            "Logged in as " + firebase.auth().currentUser.email
-          ) : (
-            <div />
-          )}
           <Time time={this.state.timeRemaining} />
           <Controls
             handleOnClickStart={this.handleStartTimer}
