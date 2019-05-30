@@ -3,9 +3,6 @@ import ReactDOM from "react-dom";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Timer from "./TimerC/Timer";
-import UserInput from "./UserInput/DisplayUserInput";
-import "./HomeLayout.css";
 
 // https://reacttraining.com/react-router/web/example/sidebar
 
@@ -13,7 +10,7 @@ const { Header, Content, Sider } = Layout;
 
 let mountNode = document.getElementById("root");
 
-export default class HomeLayout extends React.Component {
+export default class HistoryLayout extends React.Component {
   handleClick = e => {
     console.log("click ", e);
   };
@@ -61,10 +58,7 @@ export default class HomeLayout extends React.Component {
               </Menu>
             </Sider>
             <Content style={{ background: "#fff" }}>
-              <div className="HomeItems">
-                <Timer />
-                <UserInput />
-              </div>
+              <div>History log here</div>
             </Content>
           </Layout>
         </Layout>
@@ -73,4 +67,4 @@ export default class HomeLayout extends React.Component {
   }
 }
 
-ReactDOM.render(<HomeLayout />, mountNode);
+ReactDOM.render(<HistoryLayout />, mountNode);

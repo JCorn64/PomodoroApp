@@ -6,12 +6,12 @@ import ReceiveUserInput from "./ReceiveUserInput.js";
 import { message, Avatar, Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroller";
 import "antd/dist/antd.css";
+import firebase from "../firebase.js";
 
 /**
  * TO DO
  *
  * Scroll bar for log of completed tasks
- * Push data to firebase
  */
 
 export default class DisplayUserInput extends React.Component {
@@ -19,21 +19,59 @@ export default class DisplayUserInput extends React.Component {
     super(props);
 
     this.state = {
-      //   empty: true,
-      //   currentEntry: "No tasks completed yet",
       currentEntry: "",
-      allEntries: [],
-      allDetailedEntries: []
+      allDetailedEntries: [],
+      entryTask: "",
+      entryDate: "",
+      entryTime: ""
     };
   }
 
-  //   componentDidMount = () => {
-  //     this.addNewEntry();
-  //     this.setState({
-  //       currentEntry: "",
-  //       empty: false
-  //     });
-  //   };
+  // Firebase stuff -- need to call this in addNewEntry()
+  addToDatabase = (myTask, myDate, myTime) => {
+    let user = firebase.auth().currentUser;
+    let uid;
+
+    if (user != null) {
+      uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+      // this value to authenticate with your backend server, if
+      // you have one. Use User.getToken() instead.
+
+      const specificUserRef = firebase.database().ref(uid);
+      console.log("uid = " + uid);
+      const dbEntry = {
+        task: myTask,
+        date: myDate,
+        time: myTime
+      };
+      specificUserRef.push(dbEntry);
+    }
+  };
+
+  removeFromDatabase = (myTask, myDate, myTime) => {
+    let user = firebase.auth().currentUser;
+    let uid;
+    if (user != null) {
+      uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+      // this value to authenticate with your backend server, if
+      // you have one. Use User.getToken() instead.
+      const specificUserRef = firebase.database().ref(uid);
+      specificUserRef.on("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          let tempTask = childSnapshot.val().task;
+          let tempDate = childSnapshot.val().date;
+          let tempTime = childSnapshot.val().time;
+
+          if (tempTask == myTask && tempDate == myDate && tempTime == myTime) {
+            const refToRemove = firebase
+              .database()
+              .ref(uid + "/" + childSnapshot.key);
+            refToRemove.remove();
+          }
+        });
+      });
+    }
+  };
 
   updateField(field, newValue) {
     this.setState({
@@ -44,9 +82,6 @@ export default class DisplayUserInput extends React.Component {
 
   addNewEntry = () => {
     let tempAllDetailedEntries = this.state.allDetailedEntries;
-    // if (this.state.empty) {
-    //   this.removeLastEntry();
-    // }
 
     let fullDate = new Date();
     let year = fullDate.getFullYear();
@@ -65,8 +100,6 @@ export default class DisplayUserInput extends React.Component {
     if (seconds < 10) {
       seconds = "0" + seconds;
     }
-
-    console.log("year = " + fullDate.getFullYear());
 
     // Entire timestamp (date and time) -- Ex. 2019/05/29 11:41:03
     let tempTimestamp =
@@ -100,17 +133,37 @@ export default class DisplayUserInput extends React.Component {
       tempDetailedEntry
     };
 
-    this.setState({
-      allDetailedEntries: tempAllDetailedEntries
-    });
+    this.setState(
+      {
+        allDetailedEntries: tempAllDetailedEntries,
+        entryTask: tempDetailedEntry.task,
+        entryDate: tempDetailedEntry.date,
+        entryTime: tempDetailedEntry.time
+      },
+      this.addToDatabase(
+        tempDetailedEntry.task,
+        tempDetailedEntry.date,
+        tempDetailedEntry.time
+      )
+    );
   };
 
   removeLastEntry = () => {
-    let tempAllDetailedEntries = this.state.allDetailedEntries;
-    tempAllDetailedEntries.pop();
-    this.setState({
-      allDetailedEntries: tempAllDetailedEntries
-    });
+    if (this.state.allDetailedEntries.length > 0) {
+      let tempAllDetailedEntries = this.state.allDetailedEntries;
+      let toBeRemoved = tempAllDetailedEntries.pop();
+
+      this.setState(
+        {
+          allDetailedEntries: tempAllDetailedEntries
+        },
+        this.removeFromDatabase(
+          toBeRemoved.tempDetailedEntry.task,
+          toBeRemoved.tempDetailedEntry.date,
+          toBeRemoved.tempDetailedEntry.time
+        )
+      );
+    }
   };
 
   render() {
