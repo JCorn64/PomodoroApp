@@ -82,6 +82,7 @@ export default class DisplayUserInput extends React.Component {
   }
 
   addNewEntry = () => {
+    console.log(firebase.auth().currentUser.email);
     let tempAllDetailedEntries = this.state.allDetailedEntries;
 
     let fullDate = new Date();

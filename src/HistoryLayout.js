@@ -1,121 +1,200 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Layout, Menu, Breadcrumb, Icon } from "antd";
+import { Layout, Menu, Icon } from "antd";
 import "antd/dist/antd.css";
-
-// https://reacttraining.com/react-router/web/example/sidebar
+import { Timeline, Button } from "antd";
+import firebase from "./firebase.js";
+import "./HistoryLayout.css";
 
 const { Header, Content, Sider } = Layout;
 
 let mountNode = document.getElementById("root");
 
-const SubMenu = Menu.SubMenu;
+// will need to access all entries for a given user, put them in an array, then map through the array
+// in render in order to place all entries in timeline
 
 export default class HistoryLayout extends React.Component {
   // submenu keys of first level
+
   rootSubmenuKeys = ["sub1", "sub2", "sub3"];
+
   state = {
-    openKeys: ["sub1"]
+    openKeys: ["sub1"],
+    allTasks: [],
+    allDates: [],
+    allTimes: [],
+    ready: false,
+    allDataInObject: []
   };
-  onOpenChange = openKeys => {
-    const latestOpenKey = openKeys.find(
-      key => this.state.openKeys.indexOf(key) === -1
-    );
-    if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      this.setState({ openKeys });
-    } else {
-      this.setState({
-        openKeys: latestOpenKey ? [latestOpenKey] : []
+
+  retrieveHistory = async () => {
+    let user = firebase.auth().currentUser;
+    if (user == null) {
+      console.log("no user");
+    }
+    if (user != null) {
+      console.log("user exists");
+      console.log(user.uid);
+      let tasks = [];
+      let dates = [];
+      let times = [];
+
+      const specificUserRef = firebase.database().ref(user.uid);
+
+      await specificUserRef.on("value", function(snapshot) {
+        snapshot.forEach(childSnapshot => {
+          let tempTask = childSnapshot.val().task;
+          tasks.unshift(tempTask);
+          console.log("tempTask: " + tempTask);
+
+          let tempDate = childSnapshot.val().date;
+          dates.unshift(tempDate);
+          console.log("tempDate: " + tempDate);
+
+          let tempTime = childSnapshot.val().time;
+          times.unshift(tempTime);
+          console.log("tempTime: " + tempTime);
+        });
+      });
+
+      await this.setState({
+        allTasks: tasks,
+        allDates: dates,
+        allTimes: times,
+        ready: true
       });
     }
   };
+
+  manipulateData = async () => {
+    /**
+     * Want to construct object
+     * <Key: Value>
+     * Date: date
+     * Time: time
+     * Task: task
+     */
+
+    await this.retrieveHistory();
+
+    console.log("AllTasks: " + this.state.allTasks);
+
+    let tempAllDataInObject = [];
+
+    for (let i = 0; i < this.state.allTasks.length; i++) {
+      let tempObj = {
+        entryDate: "" + this.state.allDates[i],
+        entryTime: "" + this.state.allTimes[i],
+        entryTask: "" + this.state.allTasks[i]
+      };
+      console.log("tempobjdate = " + tempObj.entryDate);
+      tempAllDataInObject.push(tempObj);
+    }
+
+    console.log("tempAllObj" + JSON.stringify(tempAllDataInObject));
+
+    if (tempAllDataInObject.length > 0) {
+      console.log("test " + tempAllDataInObject[0].entryDate);
+    }
+    this.setState(
+      {
+        allDataInObject: tempAllDataInObject
+      }
+      // ,
+      // console.log("dataobj = " + this.state.allDataInObject[0].tempObj.Task)
+    );
+    if (this.state.allDataInObject.length) {
+      console.log("dataobj = " + JSON.stringify(this.state.allDataInObject));
+    }
+  };
+
   render() {
+    // console.log(this.state.allTasks);
+    // console.log(this.state.allDataInObject);
     return (
-      <Layout>
-        <Header
-          className="header"
-          style={{ background: "#fff", height: "20px" }}
-        />
+      <div>
+        <h2>h</h2>
+
         <Layout>
-          <Sider width={150} style={{ background: "#fff", display: "flex" }}>
-            <Menu
-              onClick={this.handleClick}
-              style={{ width: 125 }}
-              defaultSelectedKeys={[]}
-              defaultOpenKeys={["sub1"]}
-              mode="inline"
-            >
-              <Menu.Item key="home">
-                <span>
-                  <Icon type="home" />
-                  <span>Home</span>
-                </span>
-                <a href={"/home"} />
-              </Menu.Item>
-              <Menu.Item key="history">
-                <span>
-                  <Icon type="history" />
-                  <span>History</span>
-                </span>
-                <a href={"/history"} />
-              </Menu.Item>
-              <Menu.Item key="logout">
-                <span>
-                  <Icon type="logout" />
-                  <span>Logout</span>
-                </span>
-                <a href={"/"} />
-              </Menu.Item>
-            </Menu>
-          </Sider>
-          <Content style={{ background: "#fff" }}>
-            <Menu
-              mode="inline"
-              openKeys={this.state.openKeys}
-              onOpenChange={this.onOpenChange}
-              style={{ width: 240 }}
-            >
-              <SubMenu
-                key="sub1"
-                title={
-                  <span>
-                    <span>Date (most recent changes)</span>
-                  </span>
-                }
+          <Header
+            className="header"
+            style={{ background: "#fff", height: "20px" }}
+          />
+          <Layout>
+            <Sider width={150} style={{ background: "#fff", display: "flex" }}>
+              <Menu
+                onClick={this.handleClick}
+                style={{ width: 125 }}
+                defaultSelectedKeys={[]}
+                defaultOpenKeys={["sub1"]}
+                mode="inline"
               >
-                <Menu.Item key="1">Task 3</Menu.Item>
-                <Menu.Item key="2">Task 2</Menu.Item>
-                <Menu.Item key="3">Task 1</Menu.Item>
-                <Menu.Item key="4">Etc</Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub2"
-                title={
+                <Menu.Item key="home">
                   <span>
-                    <span>Date 2</span>
+                    <Icon type="home" />
+                    <span>Home</span>
                   </span>
-                }
-              >
-                <Menu.Item key="5">Task 2</Menu.Item>
-                <Menu.Item key="6">Task 1</Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub3"
-                title={
+                  <a href={"/home"} />
+                </Menu.Item>
+                <Menu.Item key="history">
                   <span>
-                    <span>Date 3</span>
+                    <Icon type="history" />
+                    <span>History</span>
                   </span>
-                }
-              >
-                <Menu.Item key="9">Task 4</Menu.Item>
-                <Menu.Item key="10">Task 3</Menu.Item>
-                <Menu.Item key="11">Task 2</Menu.Item>
-                <Menu.Item key="12">Task 1</Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Content>
+                  <a href={"/history"} />
+                </Menu.Item>
+                <Menu.Item key="logout">
+                  <span>
+                    <Icon type="logout" />
+                    <span>Logout</span>
+                  </span>
+                  <a href={"/"} />
+                </Menu.Item>
+              </Menu>
+            </Sider>
+
+            {/******************************************************* */}
+
+            <Content style={{ background: "#fff" }}>
+              <h2>Completed Tasks</h2>
+              <br />
+              <Timeline style={{ width: "600px" }}>
+                {this.state.allDataInObject ? (
+                  Object.keys(this.state.allDataInObject).map((key, index) => {
+                    console.log("render obj = " + obj);
+                    return (
+                      <Timeline.Item>
+                        <p style={{ wordWrap: "break-word" }}>
+                          {obj.entryDate}
+                        </p>
+                        <p style={{ wordWrap: "break-word" }}>
+                          {obj.entryTime}
+                        </p>
+                      </Timeline.Item>
+                    );
+                  })
+                ) : (
+                  <div />
+                )}
+
+                <Timeline.Item>
+                  <p style={{ wordWrap: "break-word" }}>
+                    2015-09-01 Task Completed
+                  </p>
+                  <p style={{ wordWrap: "break-word" }}>
+                    2015-09-01 Task Completed 2
+                  </p>
+                </Timeline.Item>
+              </Timeline>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
+        <div className="testingStuff">
+          <h3>hi</h3>
+          <Button onClick={() => this.manipulateData()} />
+        </div>
+        <h3>hi</h3>
+      </div>
     );
   }
 }
