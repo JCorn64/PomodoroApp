@@ -6,3 +6,7 @@
 .field {
   margin: 5px;
 }
+.login-form {
+  display: flex;
+  justify-content: center;
+}

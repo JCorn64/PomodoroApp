@@ -5,6 +5,7 @@ import "antd/dist/antd.css";
 import firebase from "./firebase.js";
 import "./LoginLayout.css";
 
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const { TextArea } = Input;
 
 const FormItem = Form.Item;
@@ -105,62 +106,10 @@ export default class LoginLayout extends React.Component {
               style={{ width: 300 }}
             >
               Login
+              {/* <a href={"/home"}>Log in</a> */}
             </Button>
           </div>
         </div>
-
-        {/* {this.state.email.length > 0 ? <p>{this.state.email}</p> : <div />}
-        {this.state.password.length > 0 ? (
-          <p>{this.state.password}</p>
-        ) : (
-          <div />
-        )}
-        {this.state.tempRegistered ? <p>{"hi"}</p> : <div />} */}
-
-        {/* <Form onSubmit={this.handleSubmit} className="login-form">
-          <FormItem style={{ float: "none", width: "250px" }}>
-            {getFieldDecorator("userName", {
-              rules: [
-                { required: true, message: "Please input your username!" }
-              ]
-            })(
-              <Input
-                prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-                placeholder="Username"
-              />
-            )}
-          </FormItem>
-          <FormItem style={{ float: "none", width: "250px" }}>
-            {getFieldDecorator("password", {
-              rules: [
-                { required: true, message: "Please input your Password!" }
-              ]
-            })(
-              <Input
-                prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-                type="password"
-                placeholder="Password"
-              />
-            )}
-          </FormItem>
-          <FormItem>
-            {getFieldDecorator("remember", {
-              valuePropName: "checked",
-              initialValue: true
-            })}
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              block
-              style={{ float: "none", width: "250px" }}
-            >
-              Log in
-            </Button>
-            <br />
-            Or <a href="">register now!</a>
-          </FormItem>
-        </Form> */}
       </div>
     );
   }
