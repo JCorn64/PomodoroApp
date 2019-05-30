@@ -35,7 +35,6 @@ export default class LoginLayout extends React.Component {
     this.setState({
       tempRegistered: true
     });
-    console.log("REGISTER EMAIL " + this.state.email);
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -110,13 +109,13 @@ export default class LoginLayout extends React.Component {
           </div>
         </div>
 
-        {this.state.email.length > 0 ? <p>{this.state.email}</p> : <div />}
+        {/* {this.state.email.length > 0 ? <p>{this.state.email}</p> : <div />}
         {this.state.password.length > 0 ? (
           <p>{this.state.password}</p>
         ) : (
           <div />
         )}
-        {this.state.tempRegistered ? <p>{"hi"}</p> : <div />}
+        {this.state.tempRegistered ? <p>{"hi"}</p> : <div />} */}
 
         {/* <Form onSubmit={this.handleSubmit} className="login-form">
           <FormItem style={{ float: "none", width: "250px" }}>
