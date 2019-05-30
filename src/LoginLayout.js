@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 import "antd/dist/antd.css";
-
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Timer from "./TimerC/Timer";
-import UserInput from "./UserInput/DisplayUserInput";
+
 
 const FormItem = Form.Item;
 
@@ -62,7 +60,7 @@ class LoginLayout extends React.Component {
               block
               style={{ float: "none", width: "250px" }}
             >
-              <a href={"/home"}>Log in</a>
+              {/* <a href={"/home"}>Log in</a> */}
             </Button>
             <br />
             Or <a href="">register now!</a>
