@@ -149,20 +149,21 @@ export default class DisplayUserInput extends React.Component {
   };
 
   removeLastEntry = () => {
-    let tempAllDetailedEntries = this.state.allDetailedEntries;
-    let toBeRemoved = tempAllDetailedEntries.pop();
-    // let toBeRemoved = this.state.allDetailedEntries[0].tempDetailedEntry.task;
+    if (this.state.allDetailedEntries.length > 0) {
+      let tempAllDetailedEntries = this.state.allDetailedEntries;
+      let toBeRemoved = tempAllDetailedEntries.pop();
 
-    this.setState(
-      {
-        allDetailedEntries: tempAllDetailedEntries
-      },
-      this.removeFromDatabase(
-        toBeRemoved.tempDetailedEntry.task,
-        toBeRemoved.tempDetailedEntry.date,
-        toBeRemoved.tempDetailedEntry.time
-      )
-    );
+      this.setState(
+        {
+          allDetailedEntries: tempAllDetailedEntries
+        },
+        this.removeFromDatabase(
+          toBeRemoved.tempDetailedEntry.task,
+          toBeRemoved.tempDetailedEntry.date,
+          toBeRemoved.tempDetailedEntry.time
+        )
+      );
+    }
   };
 
   render() {

@@ -6,7 +6,7 @@ import HomeLayout from "./HomeLayout.js";
 function App() {
   return (
     <div className="NApp">
-      <LoginLayout />
+      {/* <LoginLayout /> */}
       <HomeLayout />
     </div>
   );
