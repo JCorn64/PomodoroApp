@@ -96,15 +96,17 @@ export default class LoginLayout extends React.Component {
             </a>
           </div>
           <div className="field">
-            <Button
-              className="registerButton"
-              type="primary"
-              icon="check"
-              onClick={e => this.doRegister()}
-              style={{ width: 300 }}
-            >
-              Register
-            </Button>
+            <a href={"/home"}>
+              <Button
+                className="registerButton"
+                type="primary"
+                icon="check"
+                onClick={e => this.doRegister()}
+                style={{ width: 300 }}
+              >
+                Register
+              </Button>
+            </a>
           </div>
         </div>
       </div>
