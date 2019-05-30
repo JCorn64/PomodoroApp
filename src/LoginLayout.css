@@ -1,4 +1,12 @@
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  margin: 5px;
+}
 .login-form {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }

@@ -9,14 +9,14 @@ const MESSAGE_SENDER = process.env.REACT_APP_MESSAGE_SENDER;
 const APP_ID = process.env.REACT_APP_APP_ID;
 
 const firebaseConfig = {
-    apiKey: API_KEY,
-    authDomain: AUTH_DOMAIN,
-    databaseURL: DATABASE_URL,
-    projectId: PROJECT_ID,
-    storageBucket: STORAGEBUCKET,
-    messagingSenderId: MESSAGE_SENDER,
-    appId: APP_ID
-  };
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGEBUCKET,
+  messagingSenderId: MESSAGE_SENDER,
+  appId: APP_ID
+};
 
 firebase.initializeApp(firebaseConfig);
 
