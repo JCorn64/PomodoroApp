@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Timer from "./TimerC/Timer";
-import UserInput from "./UserInput/DisplayUserInput";
 
 // https://reacttraining.com/react-router/web/example/sidebar
 
@@ -21,7 +19,10 @@ export default class HistoryLayout extends React.Component {
     return (
       <Router>
         <Layout>
-          <Header className="header" style={{ background: "#fff", height: "20px"}}>
+          <Header
+            className="header"
+            style={{ background: "#fff", height: "20px" }}
+          >
             <div className="logo" />
           </Header>
           <Layout>
@@ -57,10 +58,7 @@ export default class HistoryLayout extends React.Component {
               </Menu>
             </Sider>
             <Content style={{ background: "#fff" }}>
-              <div className="HomeItems">
-                <Timer />
-                <UserInput />
-              </div>
+              <div>History log here</div>
             </Content>
           </Layout>
         </Layout>

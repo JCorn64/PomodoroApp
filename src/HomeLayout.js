@@ -22,7 +22,10 @@ export default class HomeLayout extends React.Component {
     return (
       <Router>
         <Layout>
-          <Header className="header" style={{ background: "#fff", height: "20px"}}>
+          <Header
+            className="header"
+            style={{ background: "#fff", height: "20px" }}
+          >
             <div className="logo" />
           </Header>
           <Layout>
