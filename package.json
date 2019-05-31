@@ -7,7 +7,7 @@
     "axios": "^0.18.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "firebase": "^6.0.4",
+    "firebase": "^6.1.0",
     "push.js": "^1.0.9",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
