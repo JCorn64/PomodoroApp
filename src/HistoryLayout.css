@@ -7,3 +7,13 @@
   flex-direction: row;
   align-content: center;
 }
+
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.headerItem {
+  margin: 5px;
+}

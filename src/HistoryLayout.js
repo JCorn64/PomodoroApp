@@ -5,6 +5,7 @@ import "antd/dist/antd.css";
 import { Timeline, Button } from "antd";
 import firebase from "./firebase.js";
 import "./HistoryLayout.css";
+import { Avatar } from "antd";
 
 const { Header, Content, Sider } = Layout;
 
@@ -100,6 +101,17 @@ export default class HistoryLayout extends React.Component {
 
     return (
       <div>
+        <div className="headerContent">
+          <div className="headerItem">
+            <Avatar
+              size={32}
+              src="http://images.clipartpanda.com/tomato-clipart-mini-tomato.svg"
+            />
+          </div>
+          <div className="headerItem">
+            <h1>Pomodoro App</h1>
+          </div>
+        </div>
         <Layout>
           <Header
             className="header"
@@ -143,7 +155,7 @@ export default class HistoryLayout extends React.Component {
             <Content style={{ background: "#fff" }}>
               <div className="bothSides">
                 <div className="leftSide">
-                  <h2>Completed Tasks</h2>
+                  <h1>Completed Tasks</h1>
                   <h4>Hello, {this.state.email}</h4>
                   {this.state.ready && this.state.allDates.length > 0 ? (
                     <h4>

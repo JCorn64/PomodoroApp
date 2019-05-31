@@ -4,3 +4,13 @@
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.headerItem {
+  margin: 5px;
+}

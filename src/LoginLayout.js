@@ -55,7 +55,7 @@ class LoginLayout extends React.Component {
         let errorCode = error.code;
         let errorMessage = error.message;
         // this.props.updateParent('registered', false);
-        // return (window.location = "/");
+        return (window.location = "/");
       });
   };
 
