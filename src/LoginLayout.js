@@ -18,9 +18,7 @@ class LoginLayout extends React.Component {
     this.state = {
       email: "",
       password: "",
-      tempRegistered: false,
-      loggedIn: this.props.loggedIn,
-      registered: this.props.registered
+      tempRegistered: false
     };
   }
 
@@ -49,14 +47,15 @@ class LoginLayout extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(function() {
-        console.log("redirecting to home");
+        // this.props.updateParent('registered', true);
         return (window.location = "/home");
       })
       .catch(function(error) {
         // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
-        return (window.location = "/");
+        // this.props.updateParent('registered', false);
+        // return (window.location = "/");
       });
   };
 
@@ -78,13 +77,14 @@ class LoginLayout extends React.Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(function() {
-        console.log("redirecting to home");
+        // this.props.updateParent('loggedIn', true);
         return (window.location = "/home");
       })
       .catch(function(error) {
         // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
+        // let errorCode = error.code;
+        // let errorMessage = error.message;
+        // this.props.updateParent('loggedIn', false);
         return (window.location = "/");
       });
   };
