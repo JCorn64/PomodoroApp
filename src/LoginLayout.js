@@ -101,6 +101,9 @@ class LoginLayout extends React.Component {
       <div className="everything">
         <div className="fields">
           <div className="field">
+            <h1 color="red">Pomodoro App</h1>
+          </div>
+          <div className="field">
             <Avatar
               size={128}
               src="http://images.clipartpanda.com/tomato-clipart-mini-tomato.svg"
