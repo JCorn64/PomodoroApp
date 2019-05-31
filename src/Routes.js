@@ -1,61 +1,64 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import "antd/dist/antd.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 import HomeLayout from "./HomeLayout";
 import HistoryLayout from "./HistoryLayout.js";
 import LoginLayout from "./LoginLayout.js";
-import Timer from "./TimerC/Timer";
-import UserInput from "./UserInput/DisplayUserInput";
 
 let mountNode = document.getElementById("root");
 
-const routes = [
-  {
-    path: "/home",
-    component: HomeLayout
-  },
-  {
-    path: "/history",
-    component: HistoryLayout
-  },
-  {
-    path: "/",
-    exact: true,
-    component: LoginLayout
-  }
-];
+const ProtectedRoute = ({
+  component: Component,
+  path,
+  loggedIn,
+  registered,
+  ...rest
+}) => (
+  <Route
+    path={path}
+    {...rest}
+    render={props =>
+      loggedIn === true || registered === true ? (
+        <Component {...props} />
+      ) : (
+        (window.location = "/")
+      )
+    }
+  />
+);
 
 class Routes extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loggedIn: false,
+      registered: false
+    };
+  }
+
   render() {
     return (
       <Router>
-        {routes.map((route, index) => (
-          // You can render a <Route> in as many places
-          // as you want in your app. It will render along
-          // with any other <Route>s that also match the URL.
-          // So, a sidebar or breadcrumbs or anything else
-          // that requires you to render multiple things
-          // in multiple places at the same URL is nothing
-          // more than multiple <Route>s.
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            component={route.component}
-          />
-        ))}
+        <Route exact path="/" component={LoginLayout} />
+
+        <ProtectedRoute
+          path="/home"
+          loggedIn={this.state.loggedIn}
+          registered={this.state.registered}
+          component={HomeLayout}
+        />
+        <ProtectedRoute
+          path="/history"
+          loggedIn={this.state.loggedIn}
+          registered={this.state.registered}
+          component={HistoryLayout}
+        />
       </Router>
     );
   }
 }
 
 ReactDOM.render(<Routes />, mountNode);
-
 export default withRouter(Routes);
