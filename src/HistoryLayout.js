@@ -10,12 +10,7 @@ const { Header, Content, Sider } = Layout;
 
 let mountNode = document.getElementById("root");
 
-// will need to access all entries for a given user, put them in an array, then map through the array
-// in render in order to place all entries in timeline
-
 export default class HistoryLayout extends React.Component {
-  // submenu keys of first level
-
   rootSubmenuKeys = ["sub1", "sub2", "sub3"];
 
   state = {
@@ -25,109 +20,92 @@ export default class HistoryLayout extends React.Component {
     allTimes: [],
     ready: false,
     allDataInObject: [],
-    numbersUpToLength: []
+    numbersUpToLength: [],
+    user: null,
+    myCounter: 0
   };
 
   componentDidMount = () => {
     this.retrieveHistory();
-    this.manipulateData();
+    this.setState({
+      myCounter: 1
+    });
+    // let tempUser = null;
+    // tempUser = firebase.auth().currentUser;
+    // if (tempUser != null) {
+    //   console.log("User email in cDM: " + tempUser.email);
+    //   this.setState(
+    //     {
+    //       user: tempUser
+    //     },
+    //     this.retrieveHistory()
+    //   );
+    // } else {
+    //   console.log("no user yet");
+    //}
   };
 
   retrieveHistory = async () => {
     let counter = 0;
     let tempNumbers = [];
-    let user = firebase.auth().currentUser;
-    if (user == null) {
-      console.log("no user");
-    }
-    if (user != null) {
-      console.log("user exists");
-      console.log(user.uid);
-      let tasks = [];
-      let dates = [];
-      let times = [];
+    let tasks = [];
+    let dates = [];
+    let times = [];
 
-      const specificUserRef = firebase.database().ref(user.uid);
+    await firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        console.log("user exists");
+        console.log(user.uid);
 
-      // used to have async here
-      specificUserRef.on("value", function(snapshot) {
-        snapshot.forEach(childSnapshot => {
-          let tempTask = childSnapshot.val().task;
-          tasks.unshift(tempTask);
-          console.log("tempTask: " + tempTask);
+        const specificUserRef = firebase.database().ref(user.uid);
 
-          let tempDate = childSnapshot.val().date;
-          dates.unshift(tempDate);
-          console.log("tempDate: " + tempDate);
+        // Populates 3 arrays with all content from DB: tasks, dates, times
+        // used to have async here
+        specificUserRef.on("value", function(snapshot) {
+          snapshot.forEach(childSnapshot => {
+            let tempTask = childSnapshot.val().task;
+            tasks.unshift(tempTask);
+            console.log("tempTask: " + tempTask);
 
-          let tempTime = childSnapshot.val().time;
-          times.unshift(tempTime);
-          console.log("tempTime: " + tempTime);
+            let tempDate = childSnapshot.val().date;
+            dates.unshift(tempDate);
+            console.log("tempDate: " + tempDate);
 
-          tempNumbers.push(counter);
-          counter++;
+            let tempTime = childSnapshot.val().time;
+            times.unshift(tempTime);
+            console.log("tempTime: " + tempTime);
+
+            tempNumbers.push(counter);
+            counter++;
+          });
         });
-      });
 
-      // used to have async here
-      this.setState({
+        console.log("Dates = " + dates);
+
+        // used to have async here
+      } else {
+        // No user is signed in.
+        console.log("no user");
+      }
+    });
+    this.setState(
+      {
         allTasks: tasks,
         allDates: dates,
         allTimes: times,
-        ready: true,
-        numbersUpToLength: tempNumbers
-      });
-    }
-
-    this.forceUpdate();
-  };
-
-  manipulateData = async () => {
-    /**
-     * Want to construct object
-     * <Key: Value>
-     * Date: date
-     * Time: time
-     * Task: task
-     */
-
-    // used to have async here
-    this.retrieveHistory();
-
-    console.log("AllTasks: " + this.state.allTasks);
-
-    let tempAllDataInObject = [];
-
-    for (let i = 0; i < this.state.allTasks.length; i++) {
-      let tempObj = {
-        entryDate: "" + this.state.allDates[i],
-        entryTime: "" + this.state.allTimes[i],
-        entryTask: "" + this.state.allTasks[i]
-      };
-      console.log("tempobjdate = " + tempObj.entryDate);
-      tempAllDataInObject.push(tempObj);
-    }
-
-    console.log("tempAllObj" + JSON.stringify(tempAllDataInObject));
-
-    if (tempAllDataInObject.length > 0) {
-      console.log("test " + tempAllDataInObject[0].entryDate);
-    }
-    this.setState(
-      {
-        allDataInObject: tempAllDataInObject
-      }
-      // ,
-      // console.log("dataobj = " + this.state.allDataInObject[0].tempObj.Task)
+        numbersUpToLength: tempNumbers,
+        myCounter: this.state.myCounter + 1
+      },
+      console.log("ALLDATES = " + this.state.allDates)
     );
-    if (this.state.allDataInObject.length) {
-      console.log("dataobj = " + JSON.stringify(this.state.allDataInObject));
-    }
-
-    this.forceUpdate();
   };
 
   render() {
+    if (this.state.myCounter < 3) {
+      this.retrieveHistory();
+    }
+
     return (
       <div>
         <Layout>
@@ -174,36 +152,6 @@ export default class HistoryLayout extends React.Component {
               <h2>Completed Tasks</h2>
               <br />
               <Timeline mode="alternate" style={{ width: "600px" }}>
-                {/* {this.state.allDataInObject.length > 0 ? (
-                  Object.keys(this.state.allDataInObject).map((keyName, i) => {
-                    return (
-                      <Timeline.Item>
-                        <p style={{ wordWrap: "break-word" }}>
-                          {this.state.allDataInObject}
-                        </p>
-                        <p style={{ wordWrap: "break-word" }}>
-                          {this.state.allDataInObject[keyName]}
-                        </p>
-                      </Timeline.Item>
-                    );
-                  })
-                ) : (
-                  <div />
-                )} */}
-                {/* 
-                {this.state.allDates.length > 0 ? (
-                  this.state.allDates.map(date => {
-                    return (
-                      <Timeline.Item>
-                        <p style={{ wordWrap: "break-word" }}>{date}</p>
-                        <p />
-                      </Timeline.Item>
-                    );
-                  })
-                ) : (
-                  <div />
-                )} */}
-
                 {this.state.allDates.length > 0 ? (
                   this.state.numbersUpToLength.map(index => {
                     return (
@@ -219,7 +167,7 @@ export default class HistoryLayout extends React.Component {
                     );
                   })
                 ) : (
-                  <div />
+                  <p>NO!</p>
                 )}
               </Timeline>
             </Content>
@@ -227,7 +175,7 @@ export default class HistoryLayout extends React.Component {
         </Layout>
         <div className="testingStuff">
           <h3>hi</h3>
-          <Button onClick={() => this.manipulateData()} />
+          <Button onClick={e => this.retrieveHistory()} />
         </div>
       </div>
     );
