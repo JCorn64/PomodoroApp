@@ -22,6 +22,10 @@ class LoginLayout extends React.Component {
     };
   }
 
+  componentDidMount = () => {
+    document.title = "Pomodoro App";
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -121,6 +125,7 @@ class LoginLayout extends React.Component {
           </div>
           <div className="field">
             <Input
+              type="password"
               placeholder="Enter your password"
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               style={{ width: 300 }}

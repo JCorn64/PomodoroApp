@@ -20,6 +20,10 @@ export default class HomeLayout extends React.Component {
     console.log("click ", e);
   };
 
+  componentDidMount = () => {
+    document.title = "Pomodoro App";
+  };
+
   render() {
     return (
       <Router>

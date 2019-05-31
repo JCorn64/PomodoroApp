@@ -29,6 +29,7 @@ export default class HistoryLayout extends React.Component {
   };
 
   componentDidMount = () => {
+    document.title = "Pomodoro App";
     this.retrieveHistory();
   };
 
