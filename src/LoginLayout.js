@@ -3,19 +3,22 @@ import { Icon, Input, Button } from "antd";
 import "antd/dist/antd.css";
 import firebase from "./firebase.js";
 import "./LoginLayout.css";
+import { BrowserRouter as Router, withRouter } from "react-router-dom";
 
 const { TextArea } = Input;
 
 let mountNode = document.getElementById("root");
 
-export default class LoginLayout extends React.Component {
+class LoginLayout extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
       password: "",
-      tempRegistered: false
+      tempRegistered: false,
+      loggedIn: this.props.loggedIn,
+      registered: this.props.registered
     };
   }
 
@@ -35,23 +38,34 @@ export default class LoginLayout extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(function() {
+        console.log("redirecting to home");
+        return (window.location = "/home");
+      })
       .catch(function(error) {
         // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
-        // ...
+        return (window.location = "/");
       });
   };
 
   doLogin = () => {
+    const { state = {} } = this.props.location;
+    const { prevLocation } = state;
+
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(function() {
+        console.log("redirecting to home");
+        return (window.location = "/home");
+      })
       .catch(function(error) {
         // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
-        // ...
+        return (window.location = "/");
       });
   };
 
@@ -83,36 +97,38 @@ export default class LoginLayout extends React.Component {
             />
           </div>
           <div className="field">
-            <a href={"/home"}>
-              <Button
-                className="loginButton"
-                type="primary"
-                icon="login"
-                onClick={e => this.doLogin()}
-                style={{ width: 300 }}
-              >
-                Login
-              </Button>
-            </a>
+            {/* <a href={"/home"}> */}
+            <Button
+              className="loginButton"
+              type="primary"
+              icon="login"
+              onClick={e => this.doLogin()}
+              style={{ width: 300 }}
+            >
+              Login
+            </Button>
+            {/* </a> */}
           </div>
           <div className="field">
-            <a href={"/home"}>
-              <Button
-                className="registerButton"
-                type="primary"
-                icon="check"
-                onClick={e => this.doRegister()}
-                style={{ width: 300 }}
-              >
-                Register
-              </Button>
-            </a>
+            {/* <a href={"/home"}> */}
+            <Button
+              className="registerButton"
+              type="primary"
+              icon="check"
+              onClick={e => this.doRegister()}
+              style={{ width: 300 }}
+            >
+              Register
+            </Button>
+            {/* </a> */}
           </div>
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(LoginLayout);
 
 // const WrappedLoginLayout = Form.create()(LoginLayout);
 
