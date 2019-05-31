@@ -4,6 +4,8 @@ import "antd/dist/antd.css";
 import firebase from "./firebase.js";
 import "./LoginLayout.css";
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
+import { red } from "@ant-design/colors";
+import { Avatar } from "antd";
 
 const { TextArea } = Input;
 
@@ -20,6 +22,10 @@ class LoginLayout extends React.Component {
     };
   }
 
+  componentDidMount = () => {
+    document.title = "Pomodoro App";
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -30,9 +36,17 @@ class LoginLayout extends React.Component {
   };
 
   doRegister = () => {
-    this.setState({
-      tempRegistered: true
-    });
+    let user = firebase.auth().currentUser;
+    if (user != null) {
+      firebase
+        .auth()
+        .signOut()
+        .then(res => {
+          console.log("logged " + user.email + " out");
+        })
+        .catch(function(error) {});
+    }
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -45,11 +59,21 @@ class LoginLayout extends React.Component {
         let errorCode = error.code;
         let errorMessage = error.message;
         // this.props.updateParent('registered', false);
-        // return (window.location = "/");
+        return (window.location = "/");
       });
   };
 
   doLogin = () => {
+    let user = firebase.auth().currentUser;
+
+    if (user != null) {
+      console.log("logged " + user.email + " out");
+      firebase
+        .auth()
+        .signOut()
+        .then(res => {})
+        .catch(function(error) {});
+    }
     const { state = {} } = this.props.location;
     const { prevLocation } = state;
 
@@ -81,26 +105,39 @@ class LoginLayout extends React.Component {
       <div className="everything">
         <div className="fields">
           <div className="field">
+            <h1 color="red">Pomodoro App</h1>
+          </div>
+          <div className="field">
+            <Avatar
+              size={128}
+              src="http://images.clipartpanda.com/tomato-clipart-mini-tomato.svg"
+            />
+          </div>
+
+          <div className="field">
             <Input
               placeholder="Enter your email"
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
               style={{ width: 300 }}
               onChange={e => this.updateField("email", e.target.value)}
+              allowClear
             />
           </div>
           <div className="field">
             <Input
+              type="password"
               placeholder="Enter your password"
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               style={{ width: 300 }}
               onChange={e => this.updateField("password", e.target.value)}
+              allowClear
             />
           </div>
           <div className="field">
             {/* <a href={"/home"}> */}
             <Button
               className="loginButton"
-              type="primary"
+              type="danger"
               icon="login"
               onClick={e => this.doLogin()}
               style={{ width: 300 }}
@@ -113,7 +150,7 @@ class LoginLayout extends React.Component {
             {/* <a href={"/home"}> */}
             <Button
               className="registerButton"
-              type="primary"
+              type="danger"
               icon="check"
               onClick={e => this.doRegister()}
               style={{ width: 300 }}

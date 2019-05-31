@@ -7,6 +7,9 @@ import Routes from "./Routes.js";
 function App() {
   return (
     <div className="NApp">
+      <head>
+        <title>Pomodoro App</title>
+      </head>
       <Routes />
       {/* <LoginLayout/>
       <HomeLayout /> */}

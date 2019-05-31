@@ -22,7 +22,7 @@ export default class ReceiveUserInput extends React.Component {
           <div>
             <Button
               className="submitButton"
-              type="primary"
+              type="danger"
               icon="upload"
               onClick={this.props.addNewEntry()}
             >
@@ -30,7 +30,7 @@ export default class ReceiveUserInput extends React.Component {
             </Button>
             <Button
               className="undoButton"
-              type="primary"
+              type="danger"
               icon="undo"
               onClick={this.props.removeLastEntry()}
             >
