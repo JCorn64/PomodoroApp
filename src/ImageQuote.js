@@ -2,34 +2,55 @@ import React from 'react';
 import axios from 'axios';
 
 export default class ImageQuote extends React.Component {
-    state = {
-        urlImg: ''
-    };
+    constructor (props) {
+        super(props);
+        this.state = {
+            quote: '',
+            author: '',
 
-    updatePicture() {
+            quoteA: '',
+        };
+    }
+
+    quoteCleaner() {
+        let quoteClean = this.state.quote;
+
+        quoteClean = quoteClean.slice(3, (quoteClean.length-5));
+        console.log( quoteClean.slice(3, (quoteClean.length-5)));
+        
+
+        this.setState({quote: cleanText})
+
+    }
+
+    updateQuote() {
         let url = 'http://localhost:9000/';
-        const min = 0;
-        const max = 24;
-        const rand = min + Math.random() * max;
-        const num = Math.round(rand);
 
         axios.get(url)
         .then(res => {
-            let img = res.data[num].data.url;
-            this.setState({ urlImg: img });
-            //console.log(img);
+            let content = res.data.content;
+            JSON.stringify(content);
+            let title = res.data.title;
+            this.setState({quote: content});
+            this.quoteCleaner();
+            let cleaned_quote = this.state.quote
+            this.setState({quoteA: cleaned_quote});
+            this.setState({author: title});
+            
         });
     }
 
     componentDidMount() {
-        this.updatePicture();
+        this.updateQuote();
     }
 
     render() {
-        console.log(this.state.urlImg);
+        console.log(this.state.author);
+        console.log(this.state.quote);
+        
         return(
             <div>
-                <img src={this.state.urlImg} height='400' width='400' alt="YOU GOT THIS!" />
+                <p> "{this.state.quoteA}" - {this.state.author}</p>
             </div>
         );
     }

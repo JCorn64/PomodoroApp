@@ -7,9 +7,9 @@ const port = 9000
 app.use(cors());
 
 app.get('/', (req, res) => {
-    axios.get('https://www.reddit.com/r/MotivationalPics/.api')
+    axios.get('http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1')
     .then(response => {
-        res.send(response.data.data.children)
+        res.send(response.data[0]);
     })
 })
 

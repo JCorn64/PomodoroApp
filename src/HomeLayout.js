@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Timer from "./TimerC/Timer";
 import UserInput from "./UserInput/DisplayUserInput";
 import "./HomeLayout.css";
-import ImageQuote from './ImageQuote';
+//import ImageQuote from './ImageQuote';
 
 // https://reacttraining.com/react-router/web/example/sidebar
 
@@ -66,9 +66,9 @@ export default class HomeLayout extends React.Component {
                 <Timer />
                 <UserInput />
               </div>
-              <div className='Image'> 
+              {/* <div className='Image'> 
                 <ImageQuote/>
-              </div>
+              </div> */}
             </Content>
           </Layout>
         </Layout>
