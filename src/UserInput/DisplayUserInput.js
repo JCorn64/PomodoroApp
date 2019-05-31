@@ -142,19 +142,18 @@ export default class DisplayUserInput extends React.Component {
       tempDetailedEntry
     };
 
-    this.setState(
-      {
-        allDetailedEntries: tempAllDetailedEntries,
-        entryTask: tempDetailedEntry.task,
-        entryDate: tempDetailedEntry.date,
-        entryTime: tempDetailedEntry.time
-      },
-      this.addToDatabase(
-        tempDetailedEntry.task,
-        tempDetailedEntry.date,
-        tempDetailedEntry.time
-      )
+    this.addToDatabase(
+      tempDetailedEntry.task,
+      tempDetailedEntry.date,
+      tempDetailedEntry.time
     );
+
+    this.setState({
+      allDetailedEntries: tempAllDetailedEntries,
+      entryTask: tempDetailedEntry.task,
+      entryDate: tempDetailedEntry.date,
+      entryTime: tempDetailedEntry.time
+    });
   };
 
   removeLastEntry = () => {

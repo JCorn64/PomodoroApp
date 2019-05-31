@@ -1,3 +1,9 @@
 .testingStuff {
   background: red;
 }
+
+.bothSides {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}

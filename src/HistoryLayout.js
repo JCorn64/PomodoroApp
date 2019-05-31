@@ -19,81 +19,85 @@ export default class HistoryLayout extends React.Component {
     allDates: [],
     allTimes: [],
     ready: false,
+    newlyReady: true,
     allDataInObject: [],
     numbersUpToLength: [],
-    user: null
+    user: null,
+    email: "",
+    tasksCompleted: 0
   };
 
   componentDidMount = () => {
     this.retrieveHistory();
-    this.setState(
-      {
-        random: true
-      },
-      () => {
-        this.retrieveHistory();
-      }
-    );
   };
 
-  retrieveHistory = async () => {
+  retrieveHistory = async user => {
     let counter = 0;
     let tempNumbers = [];
     let tasks = [];
     let dates = [];
     let times = [];
+    let userEmail = "";
 
-    await firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-        console.log("user exists");
-        console.log(user.uid);
+    let unsubscribe = await firebase.auth().onAuthStateChanged(
+      function(user) {
+        if (user) {
+          // User is signed in.
+          console.log("user exists");
+          console.log(user.uid);
+          userEmail = user.email;
 
-        const specificUserRef = firebase.database().ref(user.uid);
+          const specificUserRef = firebase.database().ref(user.uid);
 
-        // Populates 3 arrays with all content from DB: tasks, dates, times
-        // used to have async here
-        specificUserRef.on("value", function(snapshot) {
-          snapshot.forEach(childSnapshot => {
-            let tempTask = childSnapshot.val().task;
-            tasks.unshift(tempTask);
-            console.log("tempTask: " + tempTask);
+          // Populates 3 arrays with all content from DB: tasks, dates, times
+          // used to have async here
+          specificUserRef.on("value", function(snapshot) {
+            snapshot.forEach(childSnapshot => {
+              let tempTask = childSnapshot.val().task;
+              tasks.unshift(tempTask);
+              console.log("tempTask: " + tempTask);
 
-            let tempDate = childSnapshot.val().date;
-            dates.unshift(tempDate);
-            console.log("tempDate: " + tempDate);
+              let tempDate = childSnapshot.val().date;
+              dates.unshift(tempDate);
+              console.log("tempDate: " + tempDate);
 
-            let tempTime = childSnapshot.val().time;
-            times.unshift(tempTime);
-            console.log("tempTime: " + tempTime);
+              let tempTime = childSnapshot.val().time;
+              times.unshift(tempTime);
+              console.log("tempTime: " + tempTime);
 
-            tempNumbers.push(counter);
-            counter++;
+              tempNumbers.push(counter);
+              counter++;
+            });
           });
-        });
 
-        console.log("Dates = " + dates);
+          console.log("Dates = " + dates);
+        } else {
+          // No user is signed in.
+          console.log("no user");
+        }
 
-        // used to have async here
-      } else {
-        // No user is signed in.
-        console.log("no user");
-      }
-    });
-    this.setState(
-      {
-        allTasks: tasks,
-        allDates: dates,
-        allTimes: times,
-        numbersUpToLength: tempNumbers
-      },
-      () => {
-        console.log("did callback function");
-      }
+        this.setState(
+          {
+            allTasks: tasks,
+            allDates: dates,
+            allTimes: times,
+            numbersUpToLength: tempNumbers,
+            ready: true,
+            email: userEmail
+          },
+          () => {
+            this.forceUpdate();
+          }
+        );
+      }.bind(this)
     );
   };
 
   render() {
+    if (!this.state.ready) {
+      this.retrieveHistory();
+    }
+
     return (
       <div>
         <Layout>
@@ -137,34 +141,53 @@ export default class HistoryLayout extends React.Component {
             {/******************************************************* */}
 
             <Content style={{ background: "#fff" }}>
-              <h2>Completed Tasks</h2>
-              <br />
-              <Timeline mode="alternate" style={{ width: "600px" }}>
-                {this.state.allDates.length > 0 ? (
-                  this.state.numbersUpToLength.map(index => {
-                    return (
-                      <Timeline.Item>
-                        <p style={{ wordWrap: "break-word" }}>
-                          {this.state.allDates[index]}{" "}
-                          {this.state.allTimes[index]}
-                        </p>
-                        <p style={{ wordWrap: "break-word" }}>
-                          {this.state.allTasks[index]}
-                        </p>
-                      </Timeline.Item>
-                    );
-                  })
-                ) : (
-                  <p>NO!</p>
-                )}
-              </Timeline>
+              <div className="bothSides">
+                <div className="leftSide">
+                  <h2>Completed Tasks</h2>
+                  <h4>Hello, {this.state.email}</h4>
+                  {this.state.ready && this.state.allDates.length > 0 ? (
+                    <h4>
+                      You have completed {this.state.allDates.length} tasks so
+                      far
+                    </h4>
+                  ) : (
+                    <p />
+                  )}
+                  <br />
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={e => this.retrieveHistory()}
+                  >
+                    View Timeline
+                  </Button>
+                </div>
+                <div className="rightSide">
+                  <Timeline mode="alternate" style={{ width: "600px" }}>
+                    {this.state.ready && this.state.allDates.length > 0 ? (
+                      this.state.numbersUpToLength.map(index => {
+                        return (
+                          <Timeline.Item>
+                            <p style={{ wordWrap: "break-word" }}>
+                              <strong>{this.state.allDates[index]}</strong>
+                              {" at "}
+                              {this.state.allTimes[index]}
+                            </p>
+                            <p style={{ wordWrap: "break-word" }}>
+                              {this.state.allTasks[index]}
+                            </p>
+                          </Timeline.Item>
+                        );
+                      })
+                    ) : (
+                      <p />
+                    )}
+                  </Timeline>
+                </div>
+              </div>
             </Content>
           </Layout>
         </Layout>
-        <div className="testingStuff">
-          <h3>hi</h3>
-          <Button onClick={e => this.retrieveHistory()} />
-        </div>
       </div>
     );
   }
