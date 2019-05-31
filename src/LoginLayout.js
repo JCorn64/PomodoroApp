@@ -102,17 +102,17 @@ export default class LoginLayout extends React.Component {
             />
           </div>
           <div className="field">
-            {/* <a href={"/home"}> */}
-            <Button
-              className="loginButton"
-              type="primary"
-              icon="login"
-              onClick={e => this.doLogin()}
-              style={{ width: 300 }}
-            >
-              Login
-            </Button>
-            {/* </a> */}
+            <a href={"/home"}>
+              <Button
+                className="loginButton"
+                type="primary"
+                icon="login"
+                onClick={e => this.doLogin()}
+                style={{ width: 300 }}
+              >
+                Login
+              </Button>
+            </a>
           </div>
           <div className="field">
             <a href={"/home"}>

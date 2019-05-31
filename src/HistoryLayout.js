@@ -21,28 +21,19 @@ export default class HistoryLayout extends React.Component {
     ready: false,
     allDataInObject: [],
     numbersUpToLength: [],
-    user: null,
-    myCounter: 0
+    user: null
   };
 
   componentDidMount = () => {
     this.retrieveHistory();
-    this.setState({
-      myCounter: 1
-    });
-    // let tempUser = null;
-    // tempUser = firebase.auth().currentUser;
-    // if (tempUser != null) {
-    //   console.log("User email in cDM: " + tempUser.email);
-    //   this.setState(
-    //     {
-    //       user: tempUser
-    //     },
-    //     this.retrieveHistory()
-    //   );
-    // } else {
-    //   console.log("no user yet");
-    //}
+    this.setState(
+      {
+        random: true
+      },
+      () => {
+        this.retrieveHistory();
+      }
+    );
   };
 
   retrieveHistory = async () => {
@@ -94,18 +85,15 @@ export default class HistoryLayout extends React.Component {
         allTasks: tasks,
         allDates: dates,
         allTimes: times,
-        numbersUpToLength: tempNumbers,
-        myCounter: this.state.myCounter + 1
+        numbersUpToLength: tempNumbers
       },
-      console.log("ALLDATES = " + this.state.allDates)
+      () => {
+        console.log("did callback function");
+      }
     );
   };
 
   render() {
-    if (this.state.myCounter < 3) {
-      this.retrieveHistory();
-    }
-
     return (
       <div>
         <Layout>

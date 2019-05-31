@@ -28,25 +28,26 @@ export default class DisplayUserInput extends React.Component {
   }
 
   // Firebase stuff -- need to call this in addNewEntry()
-  addToDatabase = (myTask, myDate, myTime) => {
-    let user = firebase.auth().currentUser;
-    let uid;
-    console.log("logged in as: " + user.email);
+  addToDatabase = async (myTask, myDate, myTime) => {
+    await firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        let uid;
+        console.log("logged in as: " + user.email);
 
-    if (user != null) {
-      uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
-      // this value to authenticate with your backend server, if
-      // you have one. Use User.getToken() instead.
+        uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+        // this value to authenticate with your backend server, if
+        // you have one. Use User.getToken() instead.
 
-      const specificUserRef = firebase.database().ref(uid);
-      console.log("uid = " + uid);
-      const dbEntry = {
-        task: myTask,
-        date: myDate,
-        time: myTime
-      };
-      specificUserRef.push(dbEntry);
-    }
+        const specificUserRef = firebase.database().ref(uid);
+        console.log("uid = " + uid);
+        const dbEntry = {
+          task: myTask,
+          date: myDate,
+          time: myTime
+        };
+        specificUserRef.push(dbEntry);
+      }
+    });
   };
 
   removeFromDatabase = (myTask, myDate, myTime) => {
