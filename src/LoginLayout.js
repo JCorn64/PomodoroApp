@@ -86,8 +86,8 @@ class LoginLayout extends React.Component {
         .then(res => {})
         .catch(function(error) {});
     }
-    const { state = {} } = this.props.location;
-    const { prevLocation } = state;
+    // const { state = {} } = this.props.location;
+    // const { prevLocation } = state;
 
     firebase
       .auth()
