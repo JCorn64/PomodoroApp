@@ -1,0 +1,21 @@
+.fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 50px;
+}
+
+.field {
+  margin: 5px;
+}
+.login-form {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  color: red;
+  outline-color: black;
+  outline: black;
+}
