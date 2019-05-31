@@ -4,6 +4,8 @@ import "antd/dist/antd.css";
 import firebase from "./firebase.js";
 import "./LoginLayout.css";
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
+import { red } from "@ant-design/colors";
+import { Avatar } from "antd";
 
 const { TextArea } = Input;
 
@@ -99,11 +101,19 @@ class LoginLayout extends React.Component {
       <div className="everything">
         <div className="fields">
           <div className="field">
+            <Avatar
+              size={128}
+              src="http://images.clipartpanda.com/tomato-clipart-mini-tomato.svg"
+            />
+          </div>
+
+          <div className="field">
             <Input
               placeholder="Enter your email"
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
               style={{ width: 300 }}
               onChange={e => this.updateField("email", e.target.value)}
+              allowClear
             />
           </div>
           <div className="field">
@@ -112,13 +122,14 @@ class LoginLayout extends React.Component {
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               style={{ width: 300 }}
               onChange={e => this.updateField("password", e.target.value)}
+              allowClear
             />
           </div>
           <div className="field">
             {/* <a href={"/home"}> */}
             <Button
               className="loginButton"
-              type="primary"
+              type="danger"
               icon="login"
               onClick={e => this.doLogin()}
               style={{ width: 300 }}
@@ -131,7 +142,7 @@ class LoginLayout extends React.Component {
             {/* <a href={"/home"}> */}
             <Button
               className="registerButton"
-              type="primary"
+              type="danger"
               icon="check"
               onClick={e => this.doRegister()}
               style={{ width: 300 }}

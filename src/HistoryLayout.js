@@ -155,7 +155,7 @@ export default class HistoryLayout extends React.Component {
                   )}
                   <br />
                   <Button
-                    type="primary"
+                    type="danger"
                     size="large"
                     onClick={e => this.retrieveHistory()}
                   >
@@ -167,7 +167,7 @@ export default class HistoryLayout extends React.Component {
                     {this.state.ready && this.state.allDates.length > 0 ? (
                       this.state.numbersUpToLength.map(index => {
                         return (
-                          <Timeline.Item>
+                          <Timeline.Item color="red">
                             <p style={{ wordWrap: "break-word" }}>
                               <strong>{this.state.allDates[index]}</strong>
                               {" at "}
