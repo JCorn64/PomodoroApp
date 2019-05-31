@@ -15,7 +15,7 @@ export default class Timer extends React.Component {
       interval: null, // takes  a look at what the interval code is at at the time
       step: 0, // step checks weather the phase will be at a active or rest stage
       phase: "", // combines with the step to actualy cinfigure notifications and time setter to change between active and rest variables
-      timeRemaining: this.getTimeRemaining(_test) // keeps track of time left on the reat timer
+      timeRemaining: this.getTimeRemaining(_25) // keeps track of time left on the reat timer
     };
 
     // Initiallizes the various functions that will be used later on
@@ -114,7 +114,7 @@ export default class Timer extends React.Component {
     this.setState({
       step,
       timeRemaining:
-        step % 2 === 0 ? this.getTimeRemaining(_test) : this.getTimeRemaining(_05)
+        step % 2 === 0 ? this.getTimeRemaining(_25) : this.getTimeRemaining(_05)
     });
   }
 
