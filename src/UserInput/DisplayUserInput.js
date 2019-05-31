@@ -28,24 +28,26 @@ export default class DisplayUserInput extends React.Component {
   }
 
   // Firebase stuff -- need to call this in addNewEntry()
-  addToDatabase = (myTask, myDate, myTime) => {
-    let user = firebase.auth().currentUser;
-    let uid;
+  addToDatabase = async (myTask, myDate, myTime) => {
+    await firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        let uid;
+        console.log("logged in as: " + user.email);
 
-    if (user != null) {
-      uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
-      // this value to authenticate with your backend server, if
-      // you have one. Use User.getToken() instead.
+        uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+        // this value to authenticate with your backend server, if
+        // you have one. Use User.getToken() instead.
 
-      const specificUserRef = firebase.database().ref(uid);
-      console.log("uid = " + uid);
-      const dbEntry = {
-        task: myTask,
-        date: myDate,
-        time: myTime
-      };
-      specificUserRef.push(dbEntry);
-    }
+        const specificUserRef = firebase.database().ref(uid);
+        console.log("uid = " + uid);
+        const dbEntry = {
+          task: myTask,
+          date: myDate,
+          time: myTime
+        };
+        specificUserRef.push(dbEntry);
+      }
+    });
   };
 
   removeFromDatabase = (myTask, myDate, myTime) => {
@@ -81,6 +83,7 @@ export default class DisplayUserInput extends React.Component {
   }
 
   addNewEntry = () => {
+    console.log(firebase.auth().currentUser.email);
     let tempAllDetailedEntries = this.state.allDetailedEntries;
 
     let fullDate = new Date();
@@ -99,6 +102,12 @@ export default class DisplayUserInput extends React.Component {
 
     if (seconds < 10) {
       seconds = "0" + seconds;
+    }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (hours < 10) {
+      hours = "0" + hours;
     }
 
     // Entire timestamp (date and time) -- Ex. 2019/05/29 11:41:03
@@ -133,19 +142,18 @@ export default class DisplayUserInput extends React.Component {
       tempDetailedEntry
     };
 
-    this.setState(
-      {
-        allDetailedEntries: tempAllDetailedEntries,
-        entryTask: tempDetailedEntry.task,
-        entryDate: tempDetailedEntry.date,
-        entryTime: tempDetailedEntry.time
-      },
-      this.addToDatabase(
-        tempDetailedEntry.task,
-        tempDetailedEntry.date,
-        tempDetailedEntry.time
-      )
+    this.addToDatabase(
+      tempDetailedEntry.task,
+      tempDetailedEntry.date,
+      tempDetailedEntry.time
     );
+
+    this.setState({
+      allDetailedEntries: tempAllDetailedEntries,
+      entryTask: tempDetailedEntry.task,
+      entryDate: tempDetailedEntry.date,
+      entryTime: tempDetailedEntry.time
+    });
   };
 
   removeLastEntry = () => {
@@ -169,7 +177,11 @@ export default class DisplayUserInput extends React.Component {
   render() {
     return (
       <div className="myClass">
-        <p />
+        {firebase.auth().currentUser ? (
+          "Logged in as " + firebase.auth().currentUser.email
+        ) : (
+          <div />
+        )}
         <List
           size="large"
           header={

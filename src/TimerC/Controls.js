@@ -6,14 +6,13 @@ import "antd/dist/antd.css";
 const Controls = props => {
   return (
     <div className="controls">
-      
       {/* Start Button to Begin the Timer */}
-      <Button size="large" type="primary" onClick={props.handleOnClickStart}>
+      <Button size="large" type="danger" onClick={props.handleOnClickStart}>
         Start
       </Button>
 
       {/*  Stop Button to pause the Timer */}
-      <Button size="large" type="primary" onClick={props.handleOnClickStop}>
+      <Button size="large" type="danger" onClick={props.handleOnClickStop}>
         Stop
       </Button>
     </div>

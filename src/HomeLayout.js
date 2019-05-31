@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Timer from "./TimerC/Timer";
 import UserInput from "./UserInput/DisplayUserInput";
 import "./HomeLayout.css";
-//import ImageQuote from './ImageQuote';
+import firebase from "./firebase.js";
+import { Avatar } from "antd";
 
 // https://reacttraining.com/react-router/web/example/sidebar
 
@@ -19,9 +20,24 @@ export default class HomeLayout extends React.Component {
     console.log("click ", e);
   };
 
+  componentDidMount = () => {
+    document.title = "Pomodoro App";
+  };
+
   render() {
     return (
       <Router>
+        <div className="headerContent">
+          <div className="headerItem">
+            <Avatar
+              size={32}
+              src="http://images.clipartpanda.com/tomato-clipart-mini-tomato.svg"
+            />
+          </div>
+          <div className="headerItem">
+            <h1>Pomodoro App</h1>
+          </div>
+        </div>
         <Layout>
           <Header
             className="header"
