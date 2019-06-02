@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import { Icon, Input, Button } from "antd";
 import "antd/dist/antd.css";
 import firebase from "./firebase.js";
 import "./LoginLayout.css";
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import { red } from "@ant-design/colors";
-import { Avatar } from "antd";
+import { Avatar, Alert } from "antd";
 
 const { TextArea } = Input;
 
@@ -59,7 +60,18 @@ class LoginLayout extends React.Component {
         let errorCode = error.code;
         let errorMessage = error.message;
         // this.props.updateParent('registered', false);
-        return (window.location = "/");
+        return ReactDOM.render(
+          <div>
+            <Alert
+              type="error"
+              message="Unable to register. Please make sure you have not previously registered your email and that your chosen password is 6 characters or longer."
+              banner
+            />
+            <LoginLayout />
+          </div>,
+          mountNode
+        );
+        // return (window.location = "/");
       });
   };
 
@@ -74,8 +86,8 @@ class LoginLayout extends React.Component {
         .then(res => {})
         .catch(function(error) {});
     }
-    const { state = {} } = this.props.location;
-    const { prevLocation } = state;
+    // const { state = {} } = this.props.location;
+    // const { prevLocation } = state;
 
     firebase
       .auth()
@@ -89,7 +101,18 @@ class LoginLayout extends React.Component {
         // let errorCode = error.code;
         // let errorMessage = error.message;
         // this.props.updateParent('loggedIn', false);
-        return (window.location = "/");
+        return ReactDOM.render(
+          <div>
+            <Alert
+              type="error"
+              message="Unable to login. Please make sure your password matches the email you have entered. If you do not have an account, please register."
+              banner
+            />
+            <LoginLayout />
+          </div>,
+          mountNode
+        );
+        // return (window.location = "/");
       });
   };
 

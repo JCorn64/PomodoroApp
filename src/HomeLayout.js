@@ -82,6 +82,9 @@ export default class HomeLayout extends React.Component {
                 <Timer />
                 <UserInput />
               </div>
+              {/* <div className='Image'> 
+                <ImageQuote/>
+              </div> */}
             </Content>
           </Layout>
         </Layout>
